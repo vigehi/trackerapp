@@ -10,12 +10,31 @@ void main() {
   runApp(const MyApp());
 }
 
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     var defaultRouteParser;
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (_) => ActivitiesProvider()),
+//       ],
+//       child: MaterialApp.router(
+//         title: 'Activity Tracker',
+//         theme: ThemeData(
+//           primarySwatch: Colors.blue,
+//         ),
+//         routerDelegate: AppRouter.router.routerDelegate,
+//         routeInformationParser: AppRouter.router.routeInformationParser,
+//       ),
+//     );
+//   }
+// }
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    var defaultRouteParser;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ActivitiesProvider()),
