@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import '../models/activity.dart';
 import 'activity_screen.dart';
 
+void main() {
+  runApp(HomeScreen());
+}
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
