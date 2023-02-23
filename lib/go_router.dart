@@ -37,7 +37,7 @@ class AppRouter {
     routes: [
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => MaterialPage(child: HomeScreen()),
+        pageBuilder: (context, state) => MaterialPage(child: MyApp()),
       ),
       GoRoute(
         path: '/add-activity',

@@ -18,6 +18,14 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   final _participantsController = TextEditingController();
   final _priceController = TextEditingController();
   bool _isLoading = false;
+  
+  var _activityType;
+  
+  var _participants;
+  
+  var _price;
+  
+  get _accessibility => null;
 
   @override
   Widget build(BuildContext context) {
@@ -84,47 +92,50 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
       ),
     );
   }
-
   void _submitForm() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+  final form = _formKey.currentState;
 
-    setState(() {
-      _isLoading = true;
-    });
+  if (form!.validate()) {
+    form.save();
+    final activity = Activity(
+      accessibility: _accessibility,
+      type: _activityType,
+      participants: _participants,
+      price: _price, description: '', id: '', name: '',
+    );
 
-    final url = Uri.parse('https://www.boredapi.com/api/activity');
-    final response = await http.post(url, body: {
-      'accessibility': _accessibilityController.text,
-      'type': _typeController.text,
-      'participants': _participantsController.text,
-      'price': _priceController.text,
-    });
-
-    if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      Provider.of<ActivitiesProvider>(context, listen: false)
-          .addActivity(responseData);
-      Navigator.of(context).pop();
-    } else {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('An error occurred!'),
-          content: Text('Something went wrong. Please try again later.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: Text('OK'),
-            ),
-          ],
-        ),
+    try {
+      final newActivity = await createActivity(activity);
+      Navigator.of(context).pop(newActivity);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to create activity')),
       );
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
+}
+
+Future<Activity> createActivity(Activity activity) async {
+  final url = 'https://www.boredapi.com/api/activity';
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      'accessibility': activity.accessibility,
+      'type': activity.type,
+      'participants': activity.participants,
+      'price': activity.price,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    final responseData = json.decode(response.body);
+    final newActivity = Activity.fromJson(responseData);
+    return newActivity;
+  } else {
+    throw Exception('Failed to create activity');
+  }
+}
+
+
 }

@@ -16,18 +16,24 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Activity Tracker',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ActivitiesProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Activity Tracker',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {
+          '/': (context) => HomeScreen(),
+          '/add-activity': (context) => AddActivityScreen(),
+        },
       ),
-      routes: {
-        '/': (context) => HomeScreen(),
-        '/add-activity': (context) => AddActivityScreen(),
-      },
     );
   }
 }
+
 
 
 class HomeScreen extends StatelessWidget {
@@ -46,7 +52,7 @@ class HomeScreen extends StatelessWidget {
         body: jsonEncode({
          'accessibility': activity.accessibility,
          'type': activity.type,
-      'participants': activity.price,
+      'participants': activity.participants,
       'price': activity.price,
           // Add any other properties required by the board API
         }));
