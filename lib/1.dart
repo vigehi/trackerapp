@@ -1,5 +1,4 @@
 import 'package:activity_tracker/providers/activities_provider.dart';
-import 'package:activity_tracker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -36,22 +36,52 @@ class Activity {
 }
 
 class ActivitiesProvider with ChangeNotifier {
-  List<Activity> _activities = [];
+  final List<Activity> _activities = [];
+  final List<Activity> _activitiesFromApi = [];
 
-  List<Activity> get activities => _activities;
+  List<Activity> get activities => [..._activities];
+  List<Activity> get activitiesFromApi => [..._activitiesFromApi];
 
   Future<void> fetchActivities() async {
-    final response = await http.get(Uri.parse('https://www.boredapi.com/api/activity'));
+    try {
+      final response = await http.get(Uri.parse('https://www.boredapi.com/api/activity'));
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      final Activity activity = Activity.fromJson(data);
-      _activities.add(activity);
-      notifyListeners();
-    } else {
-      throw Exception('Failed to load activity');
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        final newActivity = Activity(
+          name: jsonData['activity'],
+          type: jsonData['type'],
+          participants: jsonData['participants'],
+          price: jsonData['price'].toDouble(),
+          accessibility: jsonData['accessibility'].toDouble(),
+          id: '',
+          description: '',
+        );
+        _activitiesFromApi.add(newActivity);
+        notifyListeners();
+      }
+    } catch (e) {
+      throw e;
     }
   }
+
+// class ActivitiesProvider with ChangeNotifier {
+//   List<Activity> _activities = [];
+
+//   List<Activity> get activities => _activities;
+
+//   Future<void> fetchActivities() async {
+//     final response = await http.get(Uri.parse('https://www.boredapi.com/api/activity'));
+
+//     if (response.statusCode == 200) {
+//       final Map<String, dynamic> data = jsonDecode(response.body);
+//       final Activity activity = Activity.fromJson(data);
+//       _activities.add(activity);
+//       notifyListeners();
+//     } else {
+//       throw Exception('Failed to load activity');
+//     }
+//   }
 
   Future<void> addActivity(Activity activity) async {
     _activities.add(activity);

@@ -1,6 +1,6 @@
 import 'package:activity_tracker/screens/activity_screen.dart';
 import 'package:activity_tracker/screens/add_activity_screen.dart';
-import 'package:activity_tracker/screens/home_screen.dart';
+import 'main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

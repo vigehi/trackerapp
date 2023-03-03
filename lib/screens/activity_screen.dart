@@ -6,7 +6,8 @@ import '../providers/activities_provider.dart';
 class ActivityScreen extends StatefulWidget {
   final String activityId;
 
-  const ActivityScreen({super.key, required this.activityId, required  activity});
+  const ActivityScreen(
+      {super.key, required this.activityId, required activity});
 
   @override
   _ActivityScreenState createState() => _ActivityScreenState();
@@ -18,7 +19,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
   @override
   void initState() {
     super.initState();
-    final activitiesProvider = Provider.of<ActivitiesProvider>(context, listen: false);
+    final activitiesProvider =
+        Provider.of<ActivitiesProvider>(context, listen: false);
     _activity = activitiesProvider.getActivityById(widget.activityId);
   }
 
@@ -28,7 +30,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   void _deleteActivity() {
-    final activitiesProvider = Provider.of<ActivitiesProvider>(context, listen: false);
+    final activitiesProvider =
+        Provider.of<ActivitiesProvider>(context, listen: false);
     activitiesProvider.deleteActivityById(widget.activityId);
 
     // Navigate back to the home screen
