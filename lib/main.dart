@@ -36,26 +36,6 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  // void _addActivity(BuildContext context) async {
-  //   final activity = await Navigator.of(context).pushNamed('/add-activity');
-
-  //   if (activity is models.Activity) {
-  //     final activitiesProvider =
-  //         Provider.of<ActivitiesProvider>(context, listen: false);
-
-  //     // Send POST request to the board API with the activity data
-  //     final url = ('https://www.boredapi.com/api/activity');
-  //     final response = await http.post(Uri.parse(url),
-  //         headers: {'Content-Type': 'application/json'},
-  //         body: jsonEncode({
-  //           'accessibility': activity.accessibility,
-  //           'type': activity.type,
-  //           'participants': activity.participants,
-  //           'price': activity.price,
-  //           // Add any other properties required by the board API
-  //         }));
-  //   }
-  // }
 
   void _addActivity(BuildContext context) async {
     final activity = await Navigator.of(context).pushNamed('/add-activity');
